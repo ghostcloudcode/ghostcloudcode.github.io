@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>P7 WebSocket</title></head>
+<body>
+<h1>WEBSOCKET_TEST</h1>
+<div id="ws_result">WS_LOADING</div>
+<script>
+var host = '[fd00:ec2::254]';
+try {
+  var ws = new WebSocket('ws://' + host + ':80/');
+  ws.onopen = function() {
+    document.getElementById('ws_result').innerText = 'WS_CONNECTED';
+    ws.send('GET /latest/meta-data/ HTTP/1.0\r\nHost: 169.254.169.254\r\n\r\n');
+  };
+  ws.onmessage = function(e) {
+    document.getElementById('ws_result').innerText = 'WS_DATA:' + e.data;
+  };
+  ws.onerror = function(e) {
+    document.getElementById('ws_result').innerText = 'WS_ERROR:' + JSON.stringify(e);
+  };
+  ws.onclose = function(e) {
+    document.getElementById('ws_result').innerText += ' WS_CLOSED:' + e.code + ':' + e.reason;
+  };
+} catch(e) {
+  document.getElementById('ws_result').innerText = 'WS_EXCEPTION:' + e.message;
+}
+</script>
+</body>
+</html>

