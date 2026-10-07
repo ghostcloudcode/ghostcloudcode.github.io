@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html><body>
+<h1>TIMEOUT_HTTPS_INTERNAL</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<script>
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    document.getElementById(id).innerText = id + '_STATUS:' + xhr.status + ' LEN:' + xhr.responseText.length + ' BODY:' + xhr.responseText.substr(0, 500);
+  } catch(e) {
+    document.getElementById(id).innerText = id + '_ERROR:' + e.name + ':' + e.message;
+  }
+}
+
+setTimeout(function() {
+  syncFetch('r1', 'https://p13n.adobe.io/');
+  syncFetch('r2', 'https://senseicore.adobe.io/engines');
+  syncFetch('r3', 'https://hz-app-attribute-store.adobe.io/health');
+}, 0);
+</script>
+</body></html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><body>
+<h1>TIMEOUT_EXTERNAL_XHR</h1>
+<div id="r1">INITIAL</div>
+<script>
+setTimeout(function() {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://httpbin.org/get', false);
+    xhr.send();
+    document.getElementById('r1').innerText = 'TIMEOUT_EXT_STATUS:' + xhr.status + ' LEN:' + xhr.responseText.length;
+  } catch(e) {
+    document.getElementById('r1').innerText = 'TIMEOUT_EXT_ERROR:' + e.name + ':' + e.message;
+  }
+}, 0);
+</script>
+</body></html>

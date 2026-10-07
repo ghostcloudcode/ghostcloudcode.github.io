@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html><body>
+<h1>TIMEOUT_ADOBEIO_XHR</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<script>
+setTimeout(function() {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://p13n.adobe.io/', false);
+    xhr.send();
+    document.getElementById('r1').innerText = 'P13N_STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0,500);
+  } catch(e) {
+    document.getElementById('r1').innerText = 'P13N_ERROR:' + e.name + ':' + e.message;
+  }
+  
+  try {
+    var xhr2 = new XMLHttpRequest();
+    xhr2.open('GET', 'https://pdf-services-ue1.adobe.io/', false);
+    xhr2.send();
+    document.getElementById('r2').innerText = 'PDFAPI_STATUS:' + xhr2.status + ' BODY:' + xhr2.responseText.substr(0,500);
+  } catch(e) {
+    document.getElementById('r2').innerText = 'PDFAPI_ERROR:' + e.name + ':' + e.message;
+  }
+}, 0);
+</script>
+</body></html>
