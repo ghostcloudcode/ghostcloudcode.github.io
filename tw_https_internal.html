@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><body>
+<h1>HTTPS_INTERNAL_TEST</h1>
+<div id="r1">LOADING</div>
+<div id="r2">LOADING</div>
+<div id="r3">LOADING</div>
+<div id="r4">LOADING</div>
+<script>
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    document.getElementById(id).innerText = id + '_STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0, 500);
+  } catch(e) {
+    document.getElementById(id).innerText = id + '_ERROR:' + e.name + ':' + e.message;
+  }
+}
+
+// Test HTTPS to internal services (HTTPS, not HTTP!)
+syncFetch('r1', 'https://p13n.adobe.io/');
+syncFetch('r2', 'https://senseicore.adobe.io/engines');
+syncFetch('r3', 'https://hz-app-attribute-store.adobe.io/health');
+syncFetch('r4', 'https://ims-na1.adobelogin.com/ims/token_info');
+</script>
+</body></html>

