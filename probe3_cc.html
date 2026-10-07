@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><body>
+<h1>INTERNAL_SERVICE_PROBE_3_CC</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<div id="r4">INITIAL</div>
+<div id="r5">INITIAL</div>
+<div id="r6">INITIAL</div>
+<div id="r7">INITIAL</div>
+<div id="r8">INITIAL</div>
+<script>
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    document.getElementById(id).innerText = id + ' [' + xhr.status + '] ' + xhr.responseText.substr(0, 800);
+  } catch(e) {
+    document.getElementById(id).innerText = id + ' [ERR] ' + e.name + ':' + e.message.substr(0,200);
+  }
+}
+
+setTimeout(function() {
+  syncFetch('r1', 'https://cc-api-storage.adobe.io/');
+  syncFetch('r2', 'https://firefly-api.adobe.io/');
+  syncFetch('r3', 'https://adobe-creativity.adobe.io/');
+  syncFetch('r4', 'https://express.adobe.io/');
+  syncFetch('r5', 'https://stock.adobe.io/');
+  syncFetch('r6', 'https://behance.adobe.io/');
+  syncFetch('r7', 'https://lightroom.adobe.io/');
+  syncFetch('r8', 'https://photoshop.adobe.io/');
+}, 0);
+</script>
+</body></html>
