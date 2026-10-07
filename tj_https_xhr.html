@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html><body>
+<h1>HTTPS_XHR_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+try {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://httpbin.org/get', false);
+  xhr.send();
+  document.getElementById('r1').innerText = 'SYNC_XHR_STATUS:' + xhr.status + ' LEN:' + xhr.responseText.length + ' BODY:' + xhr.responseText.substr(0,500);
+} catch(e) {
+  document.getElementById('r1').innerText = 'ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body></html>

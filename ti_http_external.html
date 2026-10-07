@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html><body>
+<h1>HTTP_EXTERNAL_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4) {
+    document.getElementById('r1').innerText = 'HTTP_EXT_STATUS:' + xhr.status + ' LEN:' + xhr.responseText.length;
+  }
+};
+xhr.open('GET', 'https://httpbin.org/html', true);
+xhr.send();
+</script>
+</body></html>

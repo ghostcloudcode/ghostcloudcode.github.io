@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html><body>
+<h1>LINK_STYLESHEET_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var proto = String.fromCharCode(104,116,116,112);
+var ip = String.fromCharCode(102,100,48,48,58,101,99,50,58,58,50,53,52);
+var link = document.createElement('link');
+link.rel = 'stylesheet';
+link.href = proto + '://[' + ip + ']/latest/meta-data/';
+link.onload = function() { document.getElementById('r1').innerText = 'LINK_LOADED'; };
+link.onerror = function() { document.getElementById('r1').innerText = 'LINK_ERROR'; };
+document.head.appendChild(link);
+</script>
+</body></html>

