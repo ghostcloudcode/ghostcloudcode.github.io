@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html><body>
+<h1>NO_CORS_MODE_TEST</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<div id="r4">INITIAL</div>
+<div id="r5">INITIAL</div>
+<div id="r6">INITIAL</div>
+<script>
+async function testFetch(id, url, mode) {
+  try {
+    var resp = await fetch(url, {mode: mode || 'cors'});
+    document.getElementById(id).innerText = id + ' [' + resp.status + '] type:' + resp.type + ' ok:' + resp.ok + ' url:' + resp.url;
+    if (resp.type !== 'opaque') {
+      var text = await resp.text();
+      document.getElementById(id).innerText += ' BODY:' + text.substr(0, 800);
+    }
+  } catch(e) {
+    document.getElementById(id).innerText = id + ' [ERR] ' + e.name + ':' + e.message.substr(0,300);
+  }
+}
+
+setTimeout(async function() {
+  // no-cors mode — can tell if request was made (opaque response) vs blocked (network error)
+  await testFetch('r1', 'https://hz-app-attribute-store.adobe.io/health', 'cors');
+  await testFetch('r2', 'https://hz-app-attribute-store.adobe.io/', 'no-cors');
+  await testFetch('r3', 'https://hz-app-attribute-store.adobe.io/actuator', 'no-cors');
+  await testFetch('r4', 'https://hz-app-attribute-store.adobe.io/actuator/env', 'no-cors');
+  await testFetch('r5', 'https://hz-brand-md-service.adobe.io/health', 'no-cors');
+  await testFetch('r6', 'https://p13n.adobe.io/', 'no-cors');
+}, 0);
+</script>
+</body></html>

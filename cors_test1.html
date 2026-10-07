@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html><body>
+<h1>CORS_ANALYSIS_TEST</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<div id="r4">INITIAL</div>
+<div id="r5">INITIAL</div>
+<div id="r6">INITIAL</div>
+<div id="r7">INITIAL</div>
+<div id="r8">INITIAL</div>
+<script>
+function syncFetchVerbose(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    var hdrs = xhr.getAllResponseHeaders();
+    document.getElementById(id).innerText = id + ' [' + xhr.status + '] CORS_HDRS:' + hdrs.substr(0,500) + ' BODY:' + xhr.responseText.substr(0, 500);
+  } catch(e) {
+    document.getElementById(id).innerText = id + ' [ERR] ' + e.name + ':' + e.message.substr(0,300);
+  }
+}
+
+setTimeout(function() {
+  // Test /health CORS headers
+  syncFetchVerbose('r1', 'https://hz-app-attribute-store.adobe.io/health');
+  
+  // Test Spring Boot Actuator with /actuator prefix
+  syncFetchVerbose('r2', 'https://hz-app-attribute-store.adobe.io/actuator/health');
+  
+  // Test /health with details
+  syncFetchVerbose('r3', 'https://hz-app-attribute-store.adobe.io/health/details');
+  syncFetchVerbose('r4', 'https://hz-app-attribute-store.adobe.io/health?verbose=true');
+  
+  // Test /v1/health variant
+  syncFetchVerbose('r5', 'https://hz-app-attribute-store.adobe.io/v1/health');
+  syncFetchVerbose('r6', 'https://hz-app-attribute-store.adobe.io/api/health');
+  
+  // Test /readiness and /liveness (Kubernetes probes)
+  syncFetchVerbose('r7', 'https://hz-app-attribute-store.adobe.io/readiness');
+  syncFetchVerbose('r8', 'https://hz-app-attribute-store.adobe.io/liveness');
+}, 0);
+</script>
+</body></html>
