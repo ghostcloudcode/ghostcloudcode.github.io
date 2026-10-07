@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><body>
+<h1>HZ_HEALTH_FOCUSED_PROBE</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<div id="r4">INITIAL</div>
+<div id="r5">INITIAL</div>
+<div id="r6">INITIAL</div>
+<div id="r7">INITIAL</div>
+<div id="r8">INITIAL</div>
+<script>
+function syncFetch(id, url, extraHeaders) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    if (extraHeaders) {
+      for (var k in extraHeaders) xhr.setRequestHeader(k, extraHeaders[k]);
+    }
+    xhr.send();
+    document.getElementById(id).innerText = id + ' [' + xhr.status + '] ' + xhr.responseText.substr(0, 1000);
+  } catch(e) {
+    document.getElementById(id).innerText = id + ' [ERR] ' + e.name + ':' + e.message.substr(0,300);
+  }
+}
+
+setTimeout(function() {
+  // Re-test /health to confirm
+  syncFetch('r1', 'https://hz-app-attribute-store.adobe.io/health');
+  
+  // Test health-adjacent management endpoints  
+  syncFetch('r2', 'https://hz-app-attribute-store.adobe.io/info');
+  syncFetch('r3', 'https://hz-app-attribute-store.adobe.io/version');
+  syncFetch('r4', 'https://hz-app-attribute-store.adobe.io/status');
+  syncFetch('r5', 'https://hz-app-attribute-store.adobe.io/metrics');
+  
+  // hz-brand-md-service health
+  syncFetch('r6', 'https://hz-brand-md-service.adobe.io/health');
+  syncFetch('r7', 'https://hz-brand-md-service.adobe.io/info');
+  syncFetch('r8', 'https://hz-brand-md-service.adobe.io/version');
+}, 0);
+</script>
+</body></html>

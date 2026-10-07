@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><body>
+<h1>OTHER_HZ_DOMAINS_PROBE</h1>
+<div id="r1">INITIAL</div>
+<div id="r2">INITIAL</div>
+<div id="r3">INITIAL</div>
+<div id="r4">INITIAL</div>
+<div id="r5">INITIAL</div>
+<div id="r6">INITIAL</div>
+<div id="r7">INITIAL</div>
+<div id="r8">INITIAL</div>
+<script>
+function syncFetch(id, url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    document.getElementById(id).innerText = id + ' [' + xhr.status + '] ' + xhr.responseText.substr(0, 800);
+  } catch(e) {
+    document.getElementById(id).innerText = id + ' [ERR] ' + e.name + ':' + e.message.substr(0,200);
+  }
+}
+
+setTimeout(function() {
+  // Try other hz-* services
+  syncFetch('r1', 'https://hz-content-service.adobe.io/health');
+  syncFetch('r2', 'https://hz-search-service.adobe.io/health');
+  syncFetch('r3', 'https://hz-template-service.adobe.io/health');
+  syncFetch('r4', 'https://hz-user-service.adobe.io/health');
+  syncFetch('r5', 'https://hz-media-service.adobe.io/health');
+  syncFetch('r6', 'https://hz-notification-service.adobe.io/health');
+  syncFetch('r7', 'https://hz-asset-service.adobe.io/health');
+  syncFetch('r8', 'https://hz-workflow-service.adobe.io/health');
+}, 0);
+</script>
+</body></html>
